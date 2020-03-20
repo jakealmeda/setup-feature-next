@@ -260,19 +260,23 @@ function setup_starter_wp_query( $args, $current_post, $more_args ) {
 }
 
 // RESET QUERIES
-function setup_starter_reset_query() {
-    
-	wp_reset_query();
-	wp_reset_postdata();
+if( !function_exists( 'setup_starter_reset_query' ) ) {
+    function setup_starter_reset_query() {
 
+        wp_reset_query();
+        wp_reset_postdata();
+
+    }
 }
 
 // GET CONTENTS OF THE TEMPLATE FILE
-function setup_starter_get_template( $filename ) {
-	
-    ob_start();
-    //include get_stylesheet_directory().'/partials/setup_starter_templates/'.$filename.'.php';
-    include plugin_dir_path( __FILE__ ).'templates/'.$filename.'.php';
-    return ob_get_clean();
+if( !function_exists( 'setup_starter_get_template' ) ) {
+    function setup_starter_get_template( $filename ) {
+        
+        ob_start();
+        //include get_stylesheet_directory().'/partials/setup_starter_templates/'.$filename.'.php';
+        include plugin_dir_path( __FILE__ ).'templates/'.$filename.'.php';
+        return ob_get_clean();
 
+    }
 }
