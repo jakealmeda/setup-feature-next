@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ############
 
-add_shortcode( 'ss_list_entries', 'setup_starter_list_entries' );
+add_shortcode( 'setup_feature_next', 'setup_starter_list_entries' );
 function setup_starter_list_entries( $atts ) {
     // $atts['foo'] -> get attribute contents
     
