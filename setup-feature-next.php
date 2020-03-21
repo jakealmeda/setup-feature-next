@@ -19,6 +19,9 @@ add_shortcode( 'ss_list_entries', 'setup_starter_list_entries' );
 function setup_starter_list_entries( $atts ) {
     // $atts['foo'] -> get attribute contents
     
+    // set template directory
+    $template_dir = plugin_dir_path( __FILE__ ).'templates/';
+
     // validate post type
     if( $atts[ 'post_type' ] ) {
         $post_type = $atts[ 'post_type' ];
@@ -56,6 +59,7 @@ function setup_starter_list_entries( $atts ) {
         'display'           => $atts[ 'display' ],
         'template'          => $atts[ 'template' ],
         'texts'             => $atts[ 'text' ],
+        'template_dir'      => $template_dir,
     );
     
     // validate variable if integer
@@ -171,7 +175,7 @@ function setup_starter_wp_query( $args, $current_post, $more_args ) {
                         if( $more_args[ 'display' ] != "next" ) {
                             // show if next entry is NOT being queried
                             // this argument kicks in when the last entry is being viewed - this will hide the next option
-                            $out .= setup_starter_get_template( $more_args[ 'template' ] );
+                            $out .= setup_starter_get_template( $more_args[ 'template_dir' ], $more_args[ 'template' ] );
                         }
                         
                         // stop loop so we can get the previous entry only
@@ -190,7 +194,7 @@ function setup_starter_wp_query( $args, $current_post, $more_args ) {
                     // CURRENT ENTRY ==============================
                     if( ! $more_args[ 'display' ] ) {
                         // show if not previous/next is being queried
-                        $out .= setup_starter_get_template( $more_args[ 'template' ] );
+                        $out .= setup_starter_get_template( $more_args[ 'template_dir' ], $more_args[ 'template' ] );
                     }
                     
                     // trigger capture of next posts
@@ -221,14 +225,14 @@ function setup_starter_wp_query( $args, $current_post, $more_args ) {
                         // exit loop if only NEXT entry is queried
                         if( $more_args[ 'display' ] == "next" ) {
                             
-                            $out = setup_starter_get_template( $more_args[ 'template' ] );
+                            $out = setup_starter_get_template( $more_args[ 'template_dir' ], $more_args[ 'template' ] );
                             break;
                             
                         }
                         
                         if( ! $more_args[ 'display' ]) {
                             // add to variable | echo all succeeding entries
-                            $out .= setup_starter_get_template( $more_args[ 'template' ] );
+                            $out .= setup_starter_get_template( $more_args[ 'template_dir' ], $more_args[ 'template' ] );
                         }
                         
                         // set counter for succeeding entries
@@ -271,11 +275,11 @@ if( !function_exists( 'setup_starter_reset_query' ) ) {
 
 // GET CONTENTS OF THE TEMPLATE FILE
 if( !function_exists( 'setup_starter_get_template' ) ) {
-    function setup_starter_get_template( $filename ) {
+    function setup_starter_get_template( $template_dir, $filename ) {
         
         ob_start();
         //include get_stylesheet_directory().'/partials/setup_starter_templates/'.$filename.'.php';
-        include plugin_dir_path( __FILE__ ).'templates/'.$filename.'.php';
+        include $template_dir.$filename.'.php';
         return ob_get_clean();
 
     }
