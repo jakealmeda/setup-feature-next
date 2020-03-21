@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-############
 
 add_shortcode( 'setup_feature_next', 'setup_starter_list_entries' );
 function setup_starter_list_entries( $atts ) {
