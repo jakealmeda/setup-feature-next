@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Setup Starter: Navigation
+ * Plugin Name: Setup Feature Next
  * Description: Displays the previous, next or a list of entries based on the current entry's location in the loop.
  * Version: 1.0
  * Author: Jake Almeda
