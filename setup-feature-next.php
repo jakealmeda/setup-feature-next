@@ -13,10 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
 
-
-add_shortcode( 'setup_feature_next', 'setup_starter_list_entries' );
+//add_shortcode( 'display-posts', 'be_display_posts_shortcode' );
+add_shortcode( 'setup-feature-next', 'setup_starter_list_entries' );
 function setup_starter_list_entries( $atts ) {
     // $atts['foo'] -> get attribute contents
+
+    // do not run in WP-Admin
+    if( is_admin() ) return;
     
     // set template directory
     $template_dir = plugin_dir_path( __FILE__ ).'templates/';
@@ -106,15 +109,32 @@ function setup_starter_list_entries( $atts ) {
         
     }
     
+    // reset query | always reset before returning the output
+    setup_starter_reset_query();
+    
     // validate if $out has contents
     if( $out ) {
 
-        return $atts[ 'tag_open' ].$out.$atts[ 'tag_close' ];
+        // validate containers: DIV
+        if( $atts[ 'div_class' ] && !$atts[ 'p_class' ] ) {
+
+            $tag_open = '<div class="'.$atts[ 'div_class' ].'">';
+            $tag_close = '</div>';
+
+        }
+
+        // validate containers: P (paragraph)
+        if( !$atts[ 'div_class' ] && $atts[ 'p_class' ] ) {
+
+            $tag_open = '<p class="'.$atts[ 'p_class' ].'">';
+            $tag_close = '</p>';
+
+        }
+
+        // OUTPUT
+        return $tag_open.$out.$tag_close;
 
     }
-    
-    // reset query
-    setup_starter_reset_query();
     
 }
 
@@ -246,7 +266,7 @@ function setup_starter_wp_query( $args, $current_post, $more_args ) {
         
     endif;
     
-    echo $out;
+    return $out;
 
 }
 

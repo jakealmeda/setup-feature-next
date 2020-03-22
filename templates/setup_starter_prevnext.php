@@ -9,12 +9,10 @@ global $this_pid, // this is the post ID that's going to be passed from the main
 
 // WHEN MAKING A TEMPLATE, ALWAYS COPY THE LINES FROM THE VERY TOP TO HERE
 
-?><p><?php
 if( $texts ) {
     echo '<strong>'.$texts.'</strong>';
 }
 echo '<a href="'.get_the_permalink( $this_pid ).'">'.get_the_post_thumbnail( $this_pid, 'thumbnail' ).'</a>';
 echo '<a href="'.get_the_permalink( $this_pid ).'">'.get_the_title( $this_pid ).'</a>';
 
-?></p><?php
 //EOF
